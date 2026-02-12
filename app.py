@@ -14,7 +14,7 @@ class Item(BaseModel):
 class ItemResponse(Item):
     id: int
 
-
+hiii
 @app.post("/items", response_model=ItemResponse)
 def create_item(item: Item):
     global current_id
