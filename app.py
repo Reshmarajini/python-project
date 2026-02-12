@@ -4,11 +4,9 @@ from typing import List
 
 app = FastAPI()
 
-# In-memory storage
 items = []
 current_id = 1
 
-# Data model
 class Item(BaseModel):
     name: str
     description: str | None = None
@@ -17,7 +15,6 @@ class ItemResponse(Item):
     id: int
 
 
-# CREATE
 @app.post("/items", response_model=ItemResponse)
 def create_item(item: Item):
     global current_id
@@ -30,14 +27,10 @@ def create_item(item: Item):
     current_id += 1
     return new_item
 
-
-# READ ALL
 @app.get("/items", response_model=List[ItemResponse])
 def get_items():
     return items
 
-
-# READ ONE
 @app.get("/items/{item_id}", response_model=ItemResponse)
 def get_item(item_id: int):
     for item in items:
@@ -45,8 +38,6 @@ def get_item(item_id: int):
             return item
     raise HTTPException(status_code=404, detail="Item not found")
 
-
-# UPDATE
 @app.put("/items/{item_id}", response_model=ItemResponse)
 def update_item(item_id: int, updated_item: Item):
     for item in items:
@@ -56,8 +47,6 @@ def update_item(item_id: int, updated_item: Item):
             return item
     raise HTTPException(status_code=404, detail="Item not found")
 
-
-# DELETE
 @app.delete("/items/{item_id}")
 def delete_item(item_id: int):
     for index, item in enumerate(items):
